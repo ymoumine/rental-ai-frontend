@@ -7,8 +7,6 @@ import {
   ArrowsUpDownIcon, 
   ChevronLeftIcon, 
   ChevronRightIcon,
-  BedIcon,
-  BathIcon,
   HomeIcon,
   MapPinIcon,
   PhotoIcon
@@ -19,7 +17,7 @@ const apiURL = 'http://localhost:5000';
 const itemsPerPage = 8; // Number of items per page
 
 export default function Listings() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -85,7 +83,7 @@ export default function Listings() {
     }, []);
 
     // Helper function to process data
-    const processData = (rawData) => {
+    const processData = (rawData: any[]) => {
         // Add a unique index to each item to use as a key
         const dataWithUniqueKeys = (rawData || []).map((item, index) => ({
             ...item,
@@ -93,7 +91,7 @@ export default function Listings() {
         }));
         
         // Remove any duplicates based on Id
-        const uniqueData = [];
+        const uniqueData: any[] = [];
         const idSet = new Set();
         
         dataWithUniqueKeys.forEach(item => {
@@ -105,10 +103,10 @@ export default function Listings() {
                 uniqueData.push(item);
             }
         });
-        
         console.log('Processed data:', uniqueData);
         setData(uniqueData);
     };
+    
 
     // handle bedroom calculation
     const handBedroomNumber = (bedroom: string) => {
@@ -154,7 +152,7 @@ export default function Listings() {
     const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 
     // Helper function to extract numeric price from string
-    function extractPrice(priceString) {
+    function extractPrice(priceString: string) {
         const match = priceString.match(/\$?([\d,]+)/);
         if (match) {
             return parseInt(match[1].replace(/,/g, ''), 10);
@@ -163,7 +161,7 @@ export default function Listings() {
     }
 
     // Handle page change
-    const handlePageChange = (page) => {
+    const handlePageChange = (page: number) => {
         setCurrentPage(page);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };

@@ -19,9 +19,9 @@ const apiURL = 'http://localhost:5000';
 export default function Id() {
     const router = useRouter();
     const id = Number(router.query.id);
-    const [property, setProperty] = useState(null);
+    const [property, setProperty] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
     const [imageError, setImageError] = useState(false);
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export default function Id() {
                 }
                 
                 console.log("Properties count:", properties.length);
-                const foundProperty = properties.find(item => item && item.Id === id);
+                const foundProperty = properties.find((item: any) => item && item.Id === id);
                 
                 if (foundProperty) {
                     console.log("Found property:", foundProperty.Id);
@@ -94,7 +94,7 @@ export default function Id() {
     }
 
     // Helper function to check if a feature exists
-    const hasFeature = (feature) => {
+    const hasFeature = (feature: string) => {
         if (!property || !property['Property.AmmenitiesNearBy']) return false;
         return property['Property.AmmenitiesNearBy'].includes(feature);
     };

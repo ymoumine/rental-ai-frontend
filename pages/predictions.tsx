@@ -38,7 +38,7 @@ export default function Predictions() {
   const [accuracyResult, setAccuracyResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [listings, setListings] = useState([]);
+  const [listings, setListings] = useState<any[]>([]);
   const [showMap, setShowMap] = useState(false);
   
   // Reference to the map section for scrolling
@@ -222,16 +222,16 @@ export default function Predictions() {
           const startPosition = window.scrollY;
           const distance = targetPosition - startPosition;
           const duration = 1000; // Adjust for slower or faster speed (1000ms = 1s)
-          let startTime = null;
+          let startTime: number = 0;
         
-          const easeInOutQuad = (t, b, c, d) => {
+          const easeInOutQuad = (t: number, b: number, c: number, d: number) => {
             t /= d / 2;
             if (t < 1) return (c / 2) * t * t + b;
             t--;
             return (-c / 2) * (t * (t - 2) - 1) + b;
           };
         
-          const animationStep = (currentTime) => {
+          const animationStep = (currentTime: number) => {
             if (!startTime) startTime = currentTime;
             const elapsedTime = currentTime - startTime;
             const nextScroll = easeInOutQuad(elapsedTime, startPosition, distance, duration);

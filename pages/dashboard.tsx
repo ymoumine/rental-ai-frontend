@@ -70,11 +70,11 @@ export default function Dashboard() {
                 setListingsCount(listings.length);
                 
                 const rentPrices = listings
-                    .map(item => parseFloat(item['Property.LeaseRentUnformattedValue'] || 0))
-                    .filter(price => price > 0);
+                    .map((item: { 'Property.LeaseRentUnformattedValue': string }) => parseFloat(item['Property.LeaseRentUnformattedValue']))
+                    .filter((price: number) => price > 0);
                 
                 if (rentPrices.length > 0) {
-                    const sum = rentPrices.reduce((a, b) => a + b, 0);
+                    const sum = rentPrices.reduce((a: number, b: number) => a + b, 0);
                     setAverageRent(Math.round(sum / rentPrices.length));
                     
                     // Calculate median
@@ -144,17 +144,17 @@ export default function Dashboard() {
     }, []);
 
     // Handle image loading errors
-    const handleImageError = (e) => {
-        console.error('Image failed to load:', e.target.src);
-        e.target.style.display = 'none';
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+        console.error('Image failed to load:', e.currentTarget.src);
+        e.currentTarget.style.display = 'none';
         const errorMsg = document.createElement('div');
         errorMsg.className = 'p-4 text-center text-red-400';
         errorMsg.innerText = 'Image failed to load. Please try refreshing the page.';
-        e.target.parentNode.appendChild(errorMsg);
+        e.currentTarget.parentNode?.appendChild(errorMsg);
     };
 
     // Render image with fallback
-    const renderImage = (src, alt) => {
+    const renderImage = (src: string, alt: string) => {
         if (imageLoadError) {
             return (
                 <div className="p-8 text-center text-gray-400">
