@@ -171,7 +171,7 @@ export default function DevDocumentation() {
     return (
         <div className="min-h-screen bg-gray-950 text-gray-100">
             {/* Header */}
-            <header className="bg-gray-900 border-b border-gray-800 py-6 px-4 sticky top-0 z-10">
+            <header className="bg-gray-800 border-b border-gray-800 py-6 px-4 sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-3">
                         <CommandLineIcon className="h-8 w-8 text-fuchsia-500" />
@@ -361,7 +361,7 @@ export default function DevDocumentation() {
                 <section id="data-sources" className="mb-16">
                     <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                         <GlobeAltIcon className="h-6 w-6 text-fuchsia-500" />
-                        External APIs & Data Sources
+                        External APIs
                     </h2>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-20">
