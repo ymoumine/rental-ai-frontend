@@ -9,8 +9,8 @@ import {
   CheckCircleIcon
 } from "@heroicons/react/24/outline";
 
-const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-const mlApiURL = process.env.NEXT_PUBLIC_ML_API_URL || 'http://localhost:5001/api';
+const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const mlApiURL = process.env.NEXT_PUBLIC_ML_API_URL || 'http://localhost:5001';
 
 export default function Predictions() {
   const [bedNumb, setBed] = useState(1);
@@ -143,7 +143,7 @@ export default function Predictions() {
     };
 
     try {
-      const response = await fetch(`${mlApiURL}/get_prediction`, {
+      const response = await fetch(`${mlApiURL}/api/get_prediction`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -174,7 +174,7 @@ export default function Predictions() {
   
   // Separate function to fetch listings
   const fetchListings = () => {
-    fetch(apiURL+'/get_data')
+    fetch(apiURL+'/api/get_data')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

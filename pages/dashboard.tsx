@@ -13,8 +13,8 @@ import {
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 
-const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
-const mlApiURL = process.env.NEXT_PUBLIC_ML_API_URL || 'http://localhost:5001/api';
+const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const mlApiURL = process.env.NEXT_PUBLIC_ML_API_URL || 'http://localhost:5001';
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(false);
@@ -33,7 +33,7 @@ export default function Dashboard() {
             setLoading(true);
             try {
                 // Fetch listings data for stats first
-                const listingsResponse = await axios.get(`${apiURL}/get_data`);
+                const listingsResponse = await axios.get(`${apiURL}/api/get_data`);
                 let listings = [];
                 
                 // Handle different response formats
@@ -98,12 +98,12 @@ export default function Dashboard() {
                 // Then fetch the chart images
                 try {
                     // Fetch rent prices over time chart
-                    const rentPricesResponse = await fetch(`${apiURL}/get_rent_by_month`);
+                    const rentPricesResponse = await fetch(`${apiURL}/api/get_rent_by_month`);
 
                     if (rentPricesResponse.ok) {
                         const rentPricesData = await rentPricesResponse.json();
                         
-                        setRentPricesImage(rentPricesData.image_path);
+                        setRentPricesImage(`${apiURL}${rentPricesData.image_path}`);
                     } else {
                         const errorData = await rentPricesResponse.json();
                         console.error('Failed to fetch rent prices data:', errorData.error);
@@ -111,11 +111,11 @@ export default function Dashboard() {
                     }
                     
                     // Fetch rent distribution chart
-                    const rentDistributionResponse = await fetch(`${apiURL}/get_rent_distr`);
+                    const rentDistributionResponse = await fetch(`${apiURL}/api/get_rent_distr`);
                     if (rentDistributionResponse.ok) {
                         const rentDistributionData = await rentDistributionResponse.json();
                         
-                        setRentDistributionImage(rentDistributionData.image_path);
+                        setRentDistributionImage(`${apiURL}${rentDistributionData.image_path}`);
                     } else {
                         const errorData = await rentDistributionResponse.json();
                         console.error('Failed to fetch rent distribution data:', errorData.error);
@@ -123,11 +123,11 @@ export default function Dashboard() {
                     }
                         
                     // Fetch feature importance chart
-                    const featureImportanceResponse = await fetch(`${mlApiURL}/get_importance`);
+                    const featureImportanceResponse = await fetch(`${mlApiURL}/api/get_importance`);
                     if (featureImportanceResponse.ok) {
                         const featureImportanceData = await featureImportanceResponse.json();
                         
-                        setFeatureImportanceImage(featureImportanceData.image_path);
+                        setFeatureImportanceImage(`${apiURL}${featureImportanceData.image_path}`);
                     } else {
                         const errorData = await featureImportanceResponse.json();
                         console.error('Failed to fetch feature importance data:', errorData.error);

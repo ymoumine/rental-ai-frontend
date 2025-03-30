@@ -14,7 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-const apiURL = 'http://localhost:5000/api';
+const apiURL = 'http://localhost:5000';
 
 export default function Id() {
     const router = useRouter();
@@ -28,7 +28,7 @@ export default function Id() {
         if (!id) return;
 
         setLoading(true);
-        axios.get(`${apiURL}/get_data`)
+        axios.get(`${apiURL}/api/get_data`)
             .then(response => {
                 let properties = [];
                 
