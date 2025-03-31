@@ -165,8 +165,8 @@ export default function DevDocumentation() {
         }
     ];
 
-    const API_URL = process.env.API_URL;
-    const ML_API_URL = process.env.ML_API_URL;
+    const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const NEXT_PUBLIC_ML_API_URL = process.env.NEXT_PUBLIC_ML_API_URL;
 
     return (
         <div className="min-h-screen bg-gray-950 text-gray-100">
@@ -513,7 +513,7 @@ export default function DevDocumentation() {
                                 </div>
 
                                 <div className="mt-4 flex gap-4">
-                                    <a href={`${ service.service === 'Backend API' ? API_URL : ML_API_URL}/documentation/swagger`} target="_blank" className="text-green-400 hover:text-green-300 flex items-center">
+                                    <a href={`${ service.service === 'Backend API' ? NEXT_PUBLIC_API_URL : NEXT_PUBLIC_ML_API_URL}/documentation/swagger`} target="_blank" className="text-green-400 hover:text-green-300 flex items-center">
                                         <DocumentTextIcon className="h-4 w-4 mr-1" />
                                         {service.service} Documentation
                                     </a>

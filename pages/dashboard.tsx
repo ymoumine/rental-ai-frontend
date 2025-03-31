@@ -13,8 +13,8 @@ import {
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 
-const apiURL = process.env.API_URL;
-const mlApiURL = process.env.ML_API_URL;
+const apiURL = process.env.NEXT_PUBLIC_API_URL;
+const mlApiURL = process.env.NEXT_PUBLIC_ML_API_URL;
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(false);

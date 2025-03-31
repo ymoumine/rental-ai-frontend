@@ -9,8 +9,8 @@ import {
   CheckCircleIcon
 } from "@heroicons/react/24/outline";
 
-const apiURL = process.env.API_URL;
-const mlApiURL = process.env.ML_API_URL;
+const apiURL = process.env.NEXT_PUBLIC_API_URL;
+const mlApiURL = process.env.NEXT_PUBLIC_ML_API_URL;
 
 export default function Predictions() {
   const [bedNumb, setBed] = useState(1);

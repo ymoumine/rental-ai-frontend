@@ -13,7 +13,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { number, string } from "yup";
 
-const apiURL = process.env.API_URL;
+const apiURL = process.env.NEXT_PUBLIC_API_URL;
 const itemsPerPage = 8; // Number of items per page
 
 export default function Listings() {
