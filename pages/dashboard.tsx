@@ -103,7 +103,7 @@ export default function Dashboard() {
                     if (rentPricesResponse.ok) {
                         const rentPricesData = await rentPricesResponse.json();
                         
-                        setRentPricesImage(`${apiURL}${rentPricesData.image_path}`);
+                        setRentPricesImage(`${rentPricesData.image_path}`);
                     } else {
                         const errorData = await rentPricesResponse.json();
                         console.error('Failed to fetch rent prices data:', errorData.error);
@@ -115,7 +115,7 @@ export default function Dashboard() {
                     if (rentDistributionResponse.ok) {
                         const rentDistributionData = await rentDistributionResponse.json();
                         
-                        setRentDistributionImage(`${apiURL}${rentDistributionData.image_path}`);
+                        setRentDistributionImage(`${rentDistributionData.image_path}`);
                     } else {
                         const errorData = await rentDistributionResponse.json();
                         console.error('Failed to fetch rent distribution data:', errorData.error);
@@ -127,7 +127,7 @@ export default function Dashboard() {
                     if (featureImportanceResponse.ok) {
                         const featureImportanceData = await featureImportanceResponse.json();
                         
-                        setFeatureImportanceImage(`${apiURL}${featureImportanceData.image_path}`);
+                        setFeatureImportanceImage(`${featureImportanceData.image_path}`);
                     } else {
                         const errorData = await featureImportanceResponse.json();
                         console.error('Failed to fetch feature importance data:', errorData.error);
