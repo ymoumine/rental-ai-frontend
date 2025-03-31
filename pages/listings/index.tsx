@@ -13,7 +13,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { number, string } from "yup";
 
-const apiURL = 'http://localhost:5000';
+const apiURL = process.env.API_URL;
 const itemsPerPage = 8; // Number of items per page
 
 export default function Listings() {

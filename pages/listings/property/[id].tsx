@@ -14,7 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-const apiURL = 'http://localhost:5000';
+const apiURL = process.env.API_URL;
 
 export default function Id() {
     const router = useRouter();
