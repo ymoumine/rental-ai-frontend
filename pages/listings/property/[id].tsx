@@ -31,48 +31,8 @@ export default function Id() {
         axios.get(`${apiURL}/api/get_data`)
             .then(response => {
                 let properties = [];
-                
-                // Handle different response formats
-                if (typeof response.data === 'string') {
-                    try {
-                        // Clean and parse the string as JSON
-                        const cleanedData = response.data
-                            .replace(/: NaN/g, ': null')
-                            .replace(/: Infinity/g, ': null')
-                            .replace(/: -Infinity/g, ': null');
-                            
-                        const parsedData = JSON.parse(cleanedData);
-                        
-                        // Check if parsed data is an array
-                        if (Array.isArray(parsedData)) {
-                            properties = parsedData;
-                        } else {
-                            // If parsed data is an object that contains an array
-                            properties = parsedData.listings || parsedData.properties || [];
-                        }
-                    } catch (e) {
-                        console.error('Error parsing string data:', e);
-                        console.log('Raw data sample:', response.data.substring(0, 200) + '...');
-                        properties = [];
-                        setError("Error parsing property data");
-                    }
-                } else if (Array.isArray(response.data)) {
-                    properties = response.data;
-                } else {
-                    // If response.data is not an array but has a property that contains the array
-                    properties = response.data.listings || response.data.properties || [];
-                }
-                
-                console.log("Properties count:", properties.length);
-                const foundProperty = properties.find((item: any) => item && item.Id === id);
-                
-                if (foundProperty) {
-                    console.log("Found property:", foundProperty.Id);
-                    setProperty(foundProperty);
-                } else {
-                    console.error("Property not found with ID:", id);
-                    setError("Property not found");
-                }
+                properties = response.data;
+                setProperty(response.data[id]);
                 setLoading(false);
             })
             .catch(error => {

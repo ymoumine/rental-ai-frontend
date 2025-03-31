@@ -26,60 +26,21 @@ export default function Listings() {
     const [imageErrors, setImageErrors] = useState({});
 
     useEffect(() => {
-        setLoading(true);
-        axios.get(apiURL+'/api/get_data')
-            .then(response => {
-                console.log('API Response:', response.data);
-                
-                // Check if response.data is a string (possibly JSON)
-                if (typeof response.data === 'string') {
-                    try {
-                        // Try to clean and parse the string as JSON
-                        // Replace NaN with null to make it valid JSON
-                        const cleanedData = response.data
-                            .replace(/: NaN/g, ': null')
-                            .replace(/: Infinity/g, ': null')
-                            .replace(/: -Infinity/g, ': null');
-                            
-                        const parsedData = JSON.parse(cleanedData);
-                        console.log('Parsed string data:', parsedData);
-                        
-                        // Check if parsed data is an array
-                        if (Array.isArray(parsedData)) {
-                            processData(parsedData);
-                        } else {
-                            // If parsed data is an object that contains an array
-                            const dataArray = parsedData.listings || parsedData.properties || [];
-                            processData(dataArray);
-                        }
-                    } catch (e) {
-                        console.error('Error parsing string data:', e);
-                        console.log('Raw data sample:', response.data.substring(0, 200) + '...');
-                        setData([]);
-                    }
+        const fetchData = async () => {
+            setLoading(true);
+            await axios.get(apiURL+'/api/get_data')
+                .then(response => {
+                    processData(response.data);
                     setLoading(false);
-                    return;
-                }
-                
-                // Check if response.data is an array
-                if (!Array.isArray(response.data)) {
-                    console.error('Expected array but got:', typeof response.data);
-                    // If response.data is not an array but has a property that contains the array
-                    const dataArray = response.data.listings || response.data.properties || [];
-                    processData(dataArray);
-                    setLoading(false);
-                    return;
-                }
-                
-                // Process array data
-                processData(response.data);
-                setLoading(false);
             })
             .catch(error => {
                 console.error('API Error:', error);
                 setError(error);
                 setLoading(false);
             });
+        };
+
+        fetchData();
     }, []);
 
     // Helper function to process data

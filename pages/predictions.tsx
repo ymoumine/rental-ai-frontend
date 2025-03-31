@@ -8,6 +8,7 @@ import {
   CalendarIcon,
   CheckCircleIcon
 } from "@heroicons/react/24/outline";
+import axios from "axios";
 
 const apiURL = process.env.NEXT_PUBLIC_API_URL;
 const mlApiURL = process.env.NEXT_PUBLIC_ML_API_URL;
@@ -173,43 +174,12 @@ export default function Predictions() {
   }
   
   // Separate function to fetch listings
-  const fetchListings = () => {
-    fetch(apiURL+'/api/get_data')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.text(); // Get response as text first
-      })
-      .then(textData => {
-        let data;
-        
-        // Try to parse the text data
-        try {
-          // Clean the string data to handle invalid JSON values
-          const cleanedData = textData
-            .replace(/: NaN/g, ': null')
-            .replace(/: Infinity/g, ': null')
-            .replace(/: -Infinity/g, ': null');
-            
-          data = JSON.parse(cleanedData);
-          
-          // Handle different data formats
-          if (Array.isArray(data)) {
-            setListings(data);
-          } else if (data && typeof data === 'object') {
-            // If data is an object that contains an array
-            const listingsArray = data.listings || data.properties || [];
-            setListings(listingsArray);
-          } else {
-            console.error('Unexpected data format:', typeof data);
-            setListings([]);
-          }
-        } catch (e) {
-          console.error('Error parsing listings data:', e);
-          console.log('Raw data sample:', textData.substring(0, 200) + '...');
-          setListings([]);
-        }
+  const fetchListings = async () => {
+      try {
+        // Fetch listings data for stats first
+        const listingsResponse = await axios.get(`${apiURL}/api/get_data`);
+
+        setListings(listingsResponse.data);
         
         setShowMap(true);
         setIsLoading(false);
@@ -250,11 +220,10 @@ export default function Predictions() {
         setTimeout(slowScrollToRef, 100);
         
 
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error fetching listings:', error);
         setIsLoading(false);
-      });
+      };
   };
 
   return (

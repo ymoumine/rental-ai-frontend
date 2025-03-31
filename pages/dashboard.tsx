@@ -34,37 +34,7 @@ export default function Dashboard() {
             try {
                 // Fetch listings data for stats first
                 const listingsResponse = await axios.get(`${apiURL}/api/get_data`);
-                let listings = [];
-                
-                // Handle different response formats
-                if (typeof listingsResponse.data === 'string') {
-                    try {
-                        // Clean and parse the string as JSON
-                        const cleanedData = listingsResponse.data
-                            .replace(/: NaN/g, ': null')
-                            .replace(/: Infinity/g, ': null')
-                            .replace(/: -Infinity/g, ': null');
-                            
-                        const parsedData = JSON.parse(cleanedData);
-                        
-                        // Check if parsed data is an array
-                        if (Array.isArray(parsedData)) {
-                            listings = parsedData;
-                        } else {
-                            // If parsed data is an object that contains an array
-                            listings = parsedData.listings || parsedData.properties || [];
-                        }
-                    } catch (e) {
-                        console.error('Error parsing string data:', e);
-                        console.log('Raw data sample:', listingsResponse.data.substring(0, 200) + '...');
-                        listings = [];
-                    }
-                } else if (Array.isArray(listingsResponse.data)) {
-                    listings = listingsResponse.data;
-                } else {
-                    // If response.data is not an array but has a property that contains the array
-                    listings = listingsResponse.data.listings || listingsResponse.data.properties || [];
-                }
+                let listings = listingsResponse.data;
                 
                 // Calculate stats
                 setListingsCount(listings.length);
