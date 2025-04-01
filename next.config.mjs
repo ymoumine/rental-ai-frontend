@@ -2,7 +2,10 @@
 const BUCKET_NAME = process.env.BUCKET_NAME;
 const nextConfig = {
     images: {
-        domains: [`${BUCKET_NAME}.s3.amazonaws.com`],
+        remotePatterns: [{
+            protocol: 'https',
+            hostname: `${BUCKET_NAME}.s3.amazonaws.com`,
+        }],
     },
 };
 export default nextConfig;

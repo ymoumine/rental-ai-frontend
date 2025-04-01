@@ -148,9 +148,11 @@ export default function Dashboard() {
             <div className="relative w-full h-64">
                 <Image 
                     fill={true}
+                    priority={true}
+                    sizes="100vw"
+                    className="object-contain p-2"
                     src={src}
                     alt={alt}
-                    objectFit="contain"
                     onError={handleImageError}
                 />
             </div>
