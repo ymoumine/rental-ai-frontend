@@ -30,9 +30,8 @@ export default function Id() {
         setLoading(true);
         axios.get(`${apiURL}/api/get_data`)
             .then(response => {
-                let properties = [];
-                properties = response.data;
-                setProperty(response.data[id]);
+                const properties = response.data.filter((item: any) => item.Id === id);
+                setProperty(properties[0]);
                 setLoading(false);
             })
             .catch(error => {
@@ -232,10 +231,6 @@ export default function Id() {
                                         <iframe 
                                             width="100%" 
                                             height="100%" 
-                                            frameBorder="0" 
-                                            scrolling="no" 
-                                            marginHeight={0} 
-                                            marginWidth={0} 
                                             src={`https://www.openstreetmap.org/export/embed.html?bbox=${property['Property.Address.Longitude']-0.01},${property['Property.Address.Latitude']-0.01},${property['Property.Address.Longitude']+0.01},${property['Property.Address.Latitude']+0.01}&layer=mapnik&marker=${property['Property.Address.Latitude']},${property['Property.Address.Longitude']}`}
                                             style={{ border: 0 }}
                                         ></iframe>

@@ -147,9 +147,9 @@ export default function Dashboard() {
         return (
             <div className="relative w-full h-64">
                 <Image 
-                    src={src} 
+                    fill={true}
+                    src={src}
                     alt={alt}
-                    layout="fill"
                     objectFit="contain"
                     onError={handleImageError}
                 />

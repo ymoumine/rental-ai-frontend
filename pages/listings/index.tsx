@@ -19,7 +19,7 @@ const itemsPerPage = 8; // Number of items per page
 export default function Listings() {
     const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<Error | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('price-asc'); // Default sort by price ascending
@@ -28,45 +28,20 @@ export default function Listings() {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            await axios.get(apiURL+'/api/get_data')
-                .then(response => {
-                    processData(response.data);
-                    setLoading(false);
-            })
-            .catch(error => {
+            try {
+                const response = await axios.get(apiURL + '/api/get_data');
+                console.log("API Response:", response.data); // Debugging log
+                setData(response.data); // Ensure it's an array
+            } catch (error) {
                 console.error('API Error:', error);
-                setError(error);
+                setError(error as Error);
+            } finally {
                 setLoading(false);
-            });
+            }
         };
 
         fetchData();
     }, []);
-
-    // Helper function to process data
-    const processData = (rawData: any[]) => {
-        // Add a unique index to each item to use as a key
-        const dataWithUniqueKeys = (rawData || []).map((item, index) => ({
-            ...item,
-            _uniqueIndex: index // Add a unique index property
-        }));
-        
-        // Remove any duplicates based on Id
-        const uniqueData: any[] = [];
-        const idSet = new Set();
-        
-        dataWithUniqueKeys.forEach(item => {
-            if (item.Id && !idSet.has(item.Id)) {
-                idSet.add(item.Id);
-                uniqueData.push(item);
-            } else if (!item.Id) {
-                // If no Id exists, use the unique index as identifier
-                uniqueData.push(item);
-            }
-        });
-        console.log('Processed data:', uniqueData);
-        setData(uniqueData);
-    };
     
 
     // handle bedroom calculation
@@ -80,37 +55,11 @@ export default function Listings() {
         return bedroom
     }
 
-    const filteredData = data.filter(item => {
-        // Check if item is valid before accessing properties
-        if (!item) return false;
-        
-        const address = item['Property.Address.AddressText'] || '';
-        const price = item['Property.LeaseRent'] || '';
-        const bedrooms = item['Building.Bedrooms'] || '';
-        const buildingType = item['Building.Type'] || '';
-        
-        const searchString = `${address} ${price} ${bedrooms} ${buildingType}`.toLowerCase();
-        return searchString.includes(searchTerm.toLowerCase());
-    });
-
-    // Sort data based on sortBy value
-    const sortedData = [...filteredData].sort((a, b) => {
-        if (sortBy === 'price-asc') {
-            return extractPrice(a['Property.LeaseRent'] || '0') - extractPrice(b['Property.LeaseRent'] || '0');
-        } else if (sortBy === 'price-desc') {
-            return extractPrice(b['Property.LeaseRent'] || '0') - extractPrice(a['Property.LeaseRent'] || '0');
-        } else if (sortBy === 'bedrooms-asc') {
-            return parseInt(a['Building.Bedrooms'] || '0', 10) - parseInt(b['Building.Bedrooms'] || '0', 10);
-        } else if (sortBy === 'bedrooms-desc') {
-            return parseInt(b['Building.Bedrooms'] || '0', 10) - parseInt(a['Building.Bedrooms'] || '0', 10);
-        }
-        return 0;
-    });
 
     // Paginate data
-    const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+    const totalPages = Math.ceil(data.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+    const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
 
     // Helper function to extract numeric price from string
     function extractPrice(priceString: string) {
@@ -181,7 +130,7 @@ export default function Listings() {
                                 </div>
                             </div>
                             <div className="mt-4 text-gray-400 text-sm">
-                                Showing {paginatedData.length} of {filteredData.length} properties
+                                Showing {paginatedData.length} of {data.length} properties
                             </div>
                         </div>
 
