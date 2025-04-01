@@ -56,11 +56,10 @@ export default function Index() {
                         <div className="relative mt-16 h-80 lg:mt-8">
                             <Image
                                 src={landingPageImageURL || '/images/landing-image.png'}
-                                priority={true}
                                 alt="App Icon"
                                 width={1824}
                                 height={1080}
-                                className="absolute left-0 top-0 lg:w-[57rem] lg:max-w-none"
+                                className="absolute left-0 top-0 lg:w-[57rem] md:w-[47rem] sm:w-[37rem] lg:max-w-none"
                             />
                         </div>
                     </div>

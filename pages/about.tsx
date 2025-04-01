@@ -58,7 +58,7 @@ export default function DevDocumentation() {
         },
         {
             name: "ML Prediction Service",
-            description: "Dedicated service for machine learning predictions",
+            description: "Dedicated service for training and running the Random Forest machine learning model",
             tech: ["Flask", "Scikit-learn", "NumPy", "Pickle", "Jupyter Notebook", "Swagger", "CORS"],
             port: 5001,
             icon: CpuChipIcon,
@@ -171,33 +171,34 @@ export default function DevDocumentation() {
     return (
         <div className="min-h-screen bg-gray-950 text-gray-100">
             {/* Header */}
-            <header className="bg-gray-800 border-b border-gray-800 py-6 px-4 sticky top-0 z-10">
+            <header className="bg-gray-800 border-b border-gray-800 py-6 px-4 sticky top-16 z-10">
                 <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-3">
                         <CommandLineIcon className="h-8 w-8 text-fuchsia-500" />
                         <span>RentalAI Developer Documentation</span>
                     </h1>
                     <nav className="flex flex-wrap gap-4">
-                        <a href="#architecture" className="text-gray-300 hover:text-fuchsia-400 transition-colors text-sm">
+                        <Link href="#architecture" className="text-gray-300 hover:text-fuchsia-400 transition-colors text-sm">
                             Architecture
-                        </a>
-                        <a href="#data-sources" className="text-gray-300 hover:text-fuchsia-400 transition-colors text-sm">
+                        </Link>
+                        <Link href="#data-sources" className="text-gray-300 hover:text-fuchsia-400 transition-colors text-sm">
                             Data Sources
-                        </a>
-                        <a href="#project-structure" className="text-gray-300 hover:text-fuchsia-400 transition-colors text-sm">
+                        </Link>
+                        <Link href="#project-structure" className="text-gray-300 hover:text-fuchsia-400 transition-colors text-sm">
                             Project Structure
-                        </a>
-                        <a href="#api-endpoints" className="text-gray-300 hover:text-fuchsia-400 transition-colors text-sm">
+                        </Link>
+                        <Link href="#api-endpoints" className="text-gray-300 hover:text-fuchsia-400 transition-colors text-sm">
                             API Endpoints
-                        </a>
+                        </Link>
                     </nav>
                 </div>
             </header>
 
             <main className="max-w-7xl mx-auto px-4 py-12">
                 {/* Introduction */}
-                <section id="architecture" className="mb-16">
+                <section className="mb-16">
                     <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl border border-gray-800 p-8">
+                        <div id="architecture"></div>
                         <h2 className="text-3xl font-bold mb-6 text-white">RentalAI: Microservices Architecture</h2>
                         <p className="text-gray-300 mb-8">
                             RentalAI is a rental price prediction platform built with a modern microservices architecture. 
@@ -322,7 +323,7 @@ export default function DevDocumentation() {
                                 </svg>
                                 
                                 {/* Legend */}
-                                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-gray-900/80 rounded-lg p-2 flex gap-4 text-xs">
+                                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-gray-900/80 rounded-lg p-2 flex flex-wrap gap-4 text-xs">
                                     <div className="flex items-center">
                                         <span className="inline-block w-3 h-3 rounded-full bg-blue-400 mr-1"></span>
                                         <span className="text-blue-300">Frontend</span>
@@ -345,11 +346,11 @@ export default function DevDocumentation() {
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div id="data-sources"></div>
                             <div className="text-gray-400 text-sm mt-8 text-center flex flex-col items-center">
                                 <p>
                                     The architecture follows a microservices pattern where each component has a specific responsibility.
-                                    The frontend communicates with both the main backend API and the ML service for predictions.
+                                    The frontend communicates with both the main backend API and a Random Forest ML service for predictions.
                                     Data visualizations are stored in AWS S3 for efficient delivery, while MongoDB stores test and property data for the ML service.
                                 </p>
                             </div>
@@ -358,13 +359,13 @@ export default function DevDocumentation() {
                 </section>
                 
                 {/* Data Sources */}
-                <section id="data-sources" className="mb-16">
+                <section className="mb-16">
                     <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                         <GlobeAltIcon className="h-6 w-6 text-fuchsia-500" />
                         External APIs
                     </h2>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-20">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-5">
+                    <div className='absolute' id="project-structure"></div>
                         {externalApis.map((api) => (
                             <div key={api.name} className="bg-gray-900 rounded-xl border border-gray-800 p-6">
                                 <div className="flex items-center mb-4">
@@ -384,7 +385,7 @@ export default function DevDocumentation() {
                 </section>
                 
                 {/* Project Structure */}
-                <section id="project-structure" className="mb-16">
+                <section className="mb-16">
                     <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                         <DocumentTextIcon className="h-6 w-6 text-fuchsia-500" />
                         Project Structure
@@ -456,7 +457,7 @@ export default function DevDocumentation() {
                                 </div>
                             </div>
                         </div>
-                        
+                        <div id='api-endpoints'></div>
                         {/* ML Service Structure */}
                         <div className="bg-gray-900 rounded-xl border border-gray-800 p-6 h-auto">
                             <button 
@@ -493,7 +494,7 @@ export default function DevDocumentation() {
                 </section>
                 
                 {/* API Endpoints */}
-                <section id="api-endpoints" className="mb-16">
+                <section className="mb-16">
                     <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                         <ServerIcon className="h-6 w-6 text-fuchsia-500" />
                         API Endpoints

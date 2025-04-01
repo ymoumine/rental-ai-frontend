@@ -238,16 +238,16 @@ export default function Predictions() {
         </div>
       </header>
       
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8 pb-2">
         <div className="bg-gray-800 rounded-xl shadow-xl overflow-hidden">
           <div className="px-6 py-8">
-            <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-white mb-6 flex items-center -ml-1 gap-2 pl-10">
               <HomeIcon className="h-6 w-6 text-fuchsia-500" />
               Enter Your Rental Preferences
             </h2>
             
-            <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 pl-20 pt-5 flex items-center">
+            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center pl-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 pt-5 flex">
                 {/* Property Details Section */}
                 <div className="col-span-1 sm:col-span-2 lg:col-span-3">
                   <h3 className="text-lg font-medium text-white flex items-center gap-2 mb-2">
@@ -606,7 +606,7 @@ export default function Predictions() {
           
           {/* Prediction Result */}
           {predictionResult !== 0 && (
-            <div className="bg-gray-700 px-6 py-8 border-t border-gray-600 ">
+            <div className="bg-gray-700 px-6 py-5 pb-2 border-t border-gray-600 ">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between">
                 <div>
                   <h3 className="text-xl font-semibold text-white">Your Predicted Budget</h3>

@@ -12,6 +12,7 @@ import {
   PhotoIcon
 } from '@heroicons/react/24/outline';
 import { number, string } from "yup";
+import React from "react";
 
 const apiURL = process.env.NEXT_PUBLIC_API_URL;
 const itemsPerPage = 8; // Number of items per page
@@ -22,15 +23,26 @@ export default function Listings() {
     const [error, setError] = useState<Error | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortBy, setSortBy] = useState('price-asc'); // Default sort by price ascending
+    const [sortBy, setSortBy] = useState('price-asc'); // default sort
     const [imageErrors, setImageErrors] = useState({});
+    const [isMobile, setIsMobile] = useState(false); // check if mobile
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);  // sm breakpoint
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
                 const response = await axios.get(apiURL + '/api/get_data');
-                setData(response.data); // Ensure it's an array
+                setData(response.data);
             } catch (error) {
                 console.error('API Error:', error);
                 setError(error as Error);
@@ -71,7 +83,7 @@ export default function Listings() {
     // Paginate data
     const totalPages = Math.ceil(sortedData.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
+    const paginatedData = !isMobile ? sortedData.slice(startIndex, startIndex + itemsPerPage) : sortedData;
 
     // Helper function to extract numeric price from string
     function extractPrice(priceString: string) {
@@ -142,7 +154,11 @@ export default function Listings() {
                                 </div>
                             </div>
                             <div className="mt-4 text-gray-400 text-sm">
-                                Showing {paginatedData.length} of {data.length} properties
+                                {!isMobile ? (
+                                    <p>Showing {paginatedData.length} of {sortedData.length} properties</p>
+                                ) : (
+                                    <p>Showing {sortedData.length} properties</p>
+                                )}
                             </div>
                         </div>
 
@@ -155,10 +171,10 @@ export default function Listings() {
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                {paginatedData.map((listing) => (
+                                {paginatedData.map((listing, index) => (
                                     <Link 
                                         href={`/listings/property/${listing.Id}`}
-                                        key={`listing-${listing.Id}`}
+                                        key={index}
                                         className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
                                     >
                                         <div className="h-48 bg-gray-700 relative">
@@ -200,8 +216,9 @@ export default function Listings() {
 
                         {/* Pagination */}
                         {totalPages > 1 && (
-                            <div className="flex justify-center mt-8">
+                            <div className="mt-8 w-full flex justify-center hidden md:flex">
                                 <nav className="flex items-center gap-1">
+                                    {/* previous page button */}
                                     <button
                                         onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                                         disabled={currentPage === 1}
@@ -213,21 +230,34 @@ export default function Listings() {
                                     >
                                         <ChevronLeftIcon className="h-5 w-5" />
                                     </button>
-                                    
-                                    {[...Array(totalPages)].map((_, i) => (
-                                        <button
-                                            key={i + 1}
-                                            onClick={() => handlePageChange(i + 1)}
-                                            className={`px-3 py-1 rounded-md ${
-                                                currentPage === i + 1
-                                                    ? 'bg-fuchsia-600 text-white'
-                                                    : 'text-gray-300 hover:bg-gray-700'
-                                            }`}
-                                        >
-                                            {i + 1}
-                                        </button>
+
+                                    {/* page buttons */}
+                                    {[...Array(totalPages)]
+                                    .map((_, i) => i + 1)
+                                    .filter(i => i === 1 || i === totalPages || Math.abs(i - currentPage) <= 1)
+                                    .map((i, index, arr) => (
+                                        <div key={`page-btn-${i}`}>
+                                            {/* Show ellipsis when i is 3 or a condition you need */}
+                                            {index > 0 && arr[index - 1] !== i - 1 && (
+                                                <span key={`ellipsis-${i}`} className="px-2 text-gray-500">...</span>
+                                            )}
+
+                                            <Link
+                                                key={i}
+                                                href={`/listings?page=${i}`}
+                                                onClick={() => handlePageChange(i)}
+                                                className={`px-3 py-1 rounded-md ${
+                                                    currentPage === i
+                                                        ? 'bg-fuchsia-600 text-white'
+                                                        : 'text-gray-300 hover:bg-gray-700'
+                                                }`}
+                                            >
+                                                {i}
+                                            </Link>
+                                        </div>
                                     ))}
-                                    
+
+                                    {/* next page button */}
                                     <button
                                         onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                                         disabled={currentPage === totalPages}

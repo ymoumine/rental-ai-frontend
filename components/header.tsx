@@ -55,7 +55,7 @@ export default function Header() {
     const pathname = usePathname();
 
     return (
-        <div className="min-h-full">
+        <div className="min-h-full sticky top-0 z-20">
             <Disclosure as="nav" className="bg-gray-900 shadow-lg">
                 {({open}) => (
                     <>
