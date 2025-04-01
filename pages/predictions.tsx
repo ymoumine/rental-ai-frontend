@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import BudgetMap from '../components/BudgetMap';
+import BudgetMap from '../components/MapContainer';
 import { 
   HomeIcon, 
   BuildingOfficeIcon, 

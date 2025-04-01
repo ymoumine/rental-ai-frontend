@@ -1,5 +1,6 @@
 import { CurrencyDollarIcon, HomeIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const landingPageImageURL = process.env.LANDING_PAGE_IMAGE_URL;
 
@@ -13,8 +14,8 @@ export default function Index() {
                     Welcome to RentalAI</h1>
                 </div>
             </header>
-            <main className="bg-gray-900">
-                <div className="mx-auto max-w-7xl py-1 sm:px-6 lg:px-8">
+            <main className="bg-gray-800">
+                <div className="mx-auto max-w-7xl py-5 sm:px-6 lg:px-8">
                     <div className="relative isolate overflow-hidden bg-gray-900 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
                         <svg
                             viewBox="0 0 1024 1024"
@@ -41,24 +42,25 @@ export default function Index() {
                                 Explore housing options and make accurate rent predictions, tailored to your preferences, using our advanced Machine Learning AI.
                             </p>
                             <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-                                <a
+                                <Link
                                     href="/predictions"
                                     className="rounded-md bg-gray-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-fuchsia-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                 >
                                     Get started
-                                </a>
-                                <a href="/dashboard" className="text-sm font-semibold leading-6 text-white">
+                                </Link>
+                                <Link href="/dashboard" className="text-sm font-semibold leading-6 text-white">
                                     Learn more <span aria-hidden="true">→</span>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                         <div className="relative mt-16 h-80 lg:mt-8">
                             <Image
                                 src={landingPageImageURL || '/images/landing-image.png'}
-                                alt="App screenshot"
+                                priority={true}
+                                alt="App Icon"
                                 width={1824}
                                 height={1080}
-                                className="absolute left-0 top-0 w-[57rem] max-w-none rounded-md bg-white/5 ring-1 ring-white/10"
+                                className="absolute left-0 top-0 lg:w-[57rem] lg:max-w-none"
                             />
                         </div>
                     </div>

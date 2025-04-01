@@ -116,8 +116,8 @@ export default function DevDocumentation() {
     // Project structure with file tree
     const projectStructure = {
         frontend: [
-            { path: "components/BudgetMap.tsx", description: "Map component for displaying properties within budget" },
-            { path: "components/MapComponent.tsx", description: "OpenStreetMap integration for property visualization" },
+            { path: "components/BudgetMap.tsx", description: "Server-safe container component that filters properties by budget range and dynamically loads the Leaflet map" },
+            { path: "components/MapComponent.tsx", description: "Client-side Leaflet implementation for interactive property visualization" },
             { path: "components/header.tsx", description: "Navigation header component with user menu" },
             { path: "pages/index.tsx", description: "Homepage with landing image from S3" },
             { path: "pages/predictions.tsx", description: "Rental price prediction page" },
@@ -511,13 +511,6 @@ export default function DevDocumentation() {
                                         </div>
                                     ))}
                                 </div>
-
-                                <div className="mt-4 flex gap-4">
-                                    <a href={`${ service.service === 'Backend API' ? NEXT_PUBLIC_API_URL : NEXT_PUBLIC_ML_API_URL}/documentation/swagger`} target="_blank" className="text-green-400 hover:text-green-300 flex items-center">
-                                        <DocumentTextIcon className="h-4 w-4 mr-1" />
-                                        {service.service} Documentation
-                                    </a>
-                                </div>
                             </div>
                         ))}
                     </div>
@@ -525,16 +518,24 @@ export default function DevDocumentation() {
                 
             </main>
 
-            {/* <footer className="bg-gray-900 border-t border-gray-800 py-8 px-4">
+            <footer className="bg-gray-900 border-t border-gray-800 py-8 px-4">
                 <div className="max-w-7xl mx-auto text-center">
                     <p className="text-gray-400 mb-2">
-                        RentalAI Documentation - Microservices Architecture
+                        <Link 
+                            href="https://github.com/Rental-AI" 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-blue-400 hover:underline"
+                        >
+                            GitHub Project
+                        </Link>
                     </p>
                     <p className="text-gray-500 text-sm">
-                        © 2024 RentalAI. Developed with ❤️ by the RentalAI Team.
+                        © 2024 RentalAI - By Yassine Moumine
                     </p>
                 </div>
-            </footer> */}
+            </footer>
+
         </div>
     );
 }

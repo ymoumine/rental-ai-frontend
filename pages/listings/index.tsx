@@ -30,7 +30,6 @@ export default function Listings() {
             setLoading(true);
             try {
                 const response = await axios.get(apiURL + '/api/get_data');
-                console.log("API Response:", response.data); // Debugging log
                 setData(response.data); // Ensure it's an array
             } catch (error) {
                 console.error('API Error:', error);
@@ -42,7 +41,6 @@ export default function Listings() {
 
         fetchData();
     }, []);
-    
 
     // handle bedroom calculation
     const handBedroomNumber = (bedroom: string) => {
@@ -55,11 +53,25 @@ export default function Listings() {
         return bedroom
     }
 
+    // Sort data based on sortBy value
+    const sortedData = [...data].sort((a, b) => {
+        if (sortBy === 'price-asc') {
+            return extractPrice(a['Property.LeaseRent'] || '0') - extractPrice(b['Property.LeaseRent'] || '0');
+        } else if (sortBy === 'price-desc') {
+            return extractPrice(b['Property.LeaseRent'] || '0') - extractPrice(a['Property.LeaseRent'] || '0');
+        } else if (sortBy === 'bedrooms-asc') {
+            return parseInt(a['Building.Bedrooms'] || '0', 10) - parseInt(handBedroomNumber(b['Building.Bedrooms']) || '0', 10);
+        } else if (sortBy === 'bedrooms-desc') {
+            return parseInt(b['Building.Bedrooms'] || '0', 10) - parseInt(handBedroomNumber(a['Building.Bedrooms']) || '0', 10);
+        }
+        return 0;
+    });
+
 
     // Paginate data
-    const totalPages = Math.ceil(data.length / itemsPerPage);
+    const totalPages = Math.ceil(sortedData.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+    const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 
     // Helper function to extract numeric price from string
     function extractPrice(priceString: string) {
@@ -146,7 +158,7 @@ export default function Listings() {
                                 {paginatedData.map((listing) => (
                                     <Link 
                                         href={`/listings/property/${listing.Id}`}
-                                        key={`listing-${listing._uniqueIndex}`}
+                                        key={`listing-${listing.Id}`}
                                         className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
                                     >
                                         <div className="h-48 bg-gray-700 relative">

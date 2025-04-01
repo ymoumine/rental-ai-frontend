@@ -75,9 +75,9 @@ const MapComponent: React.FC<MapComponentProps> = ({
       iconAnchor: [10, 10]
     });
 
-    // Add markers for each listing
+    // add markers
     filteredListings.forEach(listing => {
-      // Check if listing has coordinates
+      // check coordinates
       const lat = parseFloat(listing['Property.Address.Latitude']);
       const lng = parseFloat(listing['Property.Address.Longitude']);
       
