@@ -3,4 +3,4 @@
       "path": "/api/cron",
       "schedule": "*/25 8-23 * * *"
     }]
-  }
+}
