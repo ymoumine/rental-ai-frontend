@@ -143,7 +143,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           within budget range: <span className="text-fuchsia-500 font-bold">${minBudget} - ${maxBudget}</span>
         </p>
       </div>
-      <div ref={mapRef} className="map-container h-96 rounded-b-lg" />
+      <div ref={mapRef} className="map-container h-96 rounded-b-lg z-0" />
       <style jsx>{`
         .budget-map-container {
           width: 100%;
