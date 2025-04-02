@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app'
+import { Analytics } from "@vercel/analytics/react"
 import "../app/globals.css";
 import Header from "@/components/header";
 
@@ -14,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <div className={inter.className}>
             <Header></Header>
             <Component {...pageProps}/>
+            <Analytics />
         </div>
     );
 }
