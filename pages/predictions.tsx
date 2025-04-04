@@ -6,9 +6,12 @@ import {
   MapPinIcon, 
   CurrencyDollarIcon,
   CalendarIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
+  InformationCircleIcon
 } from "@heroicons/react/24/outline";
 import axios from "axios";
+
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 const apiURL = process.env.NEXT_PUBLIC_API_URL;
 const mlApiURL = process.env.NEXT_PUBLIC_ML_API_URL;
@@ -155,7 +158,8 @@ export default function Predictions() {
       if (response.ok) {
         const res:{prediction: any, accuracy: any} = await response.json();
 
-        let targetPrice = res.prediction;
+        let prediction = res.prediction;
+        const targetPrice = Math.round(prediction);
         setPredictionResult(targetPrice);
         setMinPredictionResult(targetPrice - 200);
         setMaxPredictionResult(targetPrice + 200);
@@ -314,15 +318,23 @@ export default function Predictions() {
                 
                 {/* Location Section */}
                 <div className="col-span-1 sm:col-span-2 lg:col-span-3 mt-6">
-                  <h3 className="text-lg font-medium text-white flex items-center gap-2 mb-2">
-                    <MapPinIcon className="h-5 w-5 text-fuchsia-500" />
-                    Location
-                  </h3>
+                  <div className="flex gap-2 mb-2">
+                    <h3 className="text-lg font-medium text-white flex items-center gap-2 mb-2">
+                      <MapPinIcon className="h-5 w-5 text-fuchsia-500" />
+                      Location
+                    </h3>
+
+                    <InformationCircleIcon className="i-icon h-5 w-5 text-fuchsia-500 mt-1 cursor-pointer" />
+                    <ReactTooltip anchorSelect=".i-icon" place="top">
+                      The data is based on the city of Ottawa and Gatineau.
+                    </ReactTooltip>
+                  </div>
+                  
                 </div>
                 
                 {/* City */}
                 <div>
-                  <label htmlFor="city" className="block text-sm font-medium text-gray-300">
+                  <label htmlFor="city" className="block text-sm font-medium text-gray-500">
                     City
                   </label>
                   <input
@@ -330,23 +342,25 @@ export default function Predictions() {
                     name="city"
                     id="city"
                     value={city}
+                    disabled={true}
                     onChange={handleCityChange}
-                    placeholder="e.g. Toronto"
-                    className="mt-1 block w-3/4 rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-fuchsia-500 focus:ring-fuchsia-500 sm:text-sm"
+                    placeholder="Ottawa"
+                    className="mt-1 block w-3/4 rounded-md border-gray-600 bg-gray-800 text-white shadow-sm focus:border-fuchsia-500 focus:ring-fuchsia-500 sm:text-sm"
                   />
                 </div>
                 
                 {/* Province */}
                 <div>
-                  <label htmlFor="province" className="block text-sm font-medium text-gray-300">
+                  <label htmlFor="province" className="block text-sm font-medium text-gray-500">
                     Province
                   </label>
                   <select
                     id="province"
                     name="province"
+                    disabled={true}
                     value={province}
                     onChange={handleProvinceChange}
-                    className="mt-1 block w-3/4 rounded-md border-gray-600 bg-gray-700 text-white shadow-sm focus:border-fuchsia-500 focus:ring-fuchsia-500 sm:text-sm"
+                    className="mt-1 block w-3/4 rounded-md border-gray-600 bg-gray-800 text-gray-500 shadow-sm focus:border-fuchsia-500 focus:ring-fuchsia-500 sm:text-sm"
                   >
                     <option value={0}>Ontario</option>
                     <option value={1}>Quebec</option>
